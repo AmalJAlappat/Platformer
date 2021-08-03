@@ -1,10 +1,12 @@
 function love.load()
     wf = require 'libraries/windfield/windfield'
     world = wf.newWorld(0,800)
+    world:addCollisionClass('Player')
+    world:addCollisionClass('Platform')
 
-    player = world:newRectangleCollider(360,100,80,80)
+    player = world:newRectangleCollider(360,100,80,80,{collisin_class="Player"})
     player.speed=240
-    platform = world:newRectangleCollider(250,400,300,100)
+    platform = world:newRectangleCollider(250,400,300,100,{collisin_class="Platform"})
     platform:setType('static')
 
 end
