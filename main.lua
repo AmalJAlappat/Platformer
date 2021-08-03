@@ -8,6 +8,9 @@ function love.load()
 
     player = world:newRectangleCollider(360,100,80,80,{collisin_class="Player"})
     player.speed=240
+    player:setFixedRotation(true)
+
+
     platform = world:newRectangleCollider(250,400,300,100,{collisin_class="Platform"})
     platform:setType('static')
     platform = world:newRectangleCollider(0,550,800,50,{collisin_class="Danger"})
