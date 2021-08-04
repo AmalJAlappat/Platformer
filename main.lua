@@ -1,6 +1,9 @@
 function love.load()
     animate = require 'libraries/anim8/anim8'
-
+    sti=require 'libraries/Simple-Tiled-Implementation/sti'
+    
+    love.window.setMode(1000,768)
+    
     sprites={}
     sprites.playerSheet = love.graphics.newImage('sprites/playerSheet.png')
 
@@ -26,15 +29,20 @@ function love.load()
     dangerZone = world:newRectangleCollider(0,550,800,50,{collision_class="Danger"})
     dangerZone:setType('static')
 
+    loadMap()
+
 end
 
 function love.update(dt)
     playerUpdate(dt)
     world:update(dt)
+    gameMap:update(dt)
 
 end
 
 function love.draw()
+   
+    gameMap:drawLayer(gameMap.layers["Tile Layer 1"])
     world:draw()
     drawPlayer()
 end
@@ -47,8 +55,6 @@ function love.keypressed(key)
     end
 end
 
---[[function love.mousepressed(x,y,button)
-    if button==1 then
-        local colliders = world:queryCircleArea(x,y,200)
-    end
-end]]
+function loadMap()
+    gameMap = sti('maps/level1.lua')
+end
