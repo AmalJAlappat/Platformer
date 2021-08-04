@@ -3,6 +3,16 @@ function love.load()
     sti=require 'libraries/Simple-Tiled-Implementation/sti'
     cameraFile= require 'libraries/hump/camera'
     cam=cameraFile()
+
+    sounds={}
+    sounds.jump=love.audio.newSource("audio/jump.wav","static")
+    sounds.jump:setVolume(0.75)
+
+    sounds.music=love.audio.newSource("audio/music.mp3","stream")
+    sounds.music:setLooping(true)
+    sounds.music:setVolume(0.5)
+
+    sounds.music:play()
     
     love.window.setMode(1000,768)
     
@@ -86,6 +96,7 @@ function love.keypressed(key)
     if key == 'up' then
         if player.grounded then
             player:applyLinearImpulse(0,-4000)
+            sounds.jump:play()
         end
     end
 end
