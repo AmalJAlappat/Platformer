@@ -25,6 +25,7 @@ function love.load()
     player.animation = animation.idle
     player.isMoving = false
     player.direction=1
+    player.grounded=true
 
 
     platform = world:newRectangleCollider(250,400,300,100,{collision_class="Platform"})
@@ -37,6 +38,14 @@ end
 function love.update(dt)
 
     world:update(dt)
+
+    local colliders = world:queryRectangleArea(player:getX()-20,player:getY()+50,80,2,{'Platform'})
+        if #colliders > 0 then
+            player.grounded=true
+        else
+            player.grounded=false
+        end
+        
     if player.body then
         player.isMoving=false
         local px,py = player:getPosition()
@@ -55,13 +64,18 @@ function love.update(dt)
     if player:enter('Danger') then
         player:destroy()
     end
+    if player.grounded then
+        if player.isMoving==true then
+            player.animation=animation.run
+        end
+        if player.isMoving==false then
+            player.animation=animation.idle
+        end
+    else
+        player.animation=animation.jump
+    end
 
-    if player.isMoving==true then
-        player.animation=animation.run
-    end
-    if player.isMoving==false then
-        player.animation=animation.idle
-    end
+    
 
     player.animation:update(dt)
 end
@@ -74,15 +88,14 @@ end
 
 function love.keypressed(key)
     if key == 'up' then
-        local colliders = world:queryRectangleArea(player:getX()-20,player:getY()+50,80,2,{'Platform'})
-        if #colliders > 0 then
+        if player.grounded then
             player:applyLinearImpulse(0,-4000)
         end
     end
 end
 
-function love.mousepressed(x,y,button)
+--[[function love.mousepressed(x,y,button)
     if button==1 then
         local colliders = world:queryCircleArea(x,y,200)
     end
-end
+end]]
