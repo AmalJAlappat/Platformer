@@ -19,6 +19,7 @@ function love.load()
     sprites={}
     sprites.playerSheet = love.graphics.newImage('sprites/playerSheet.png')
     sprites.enemySheet = love.graphics.newImage('sprites/enemySheet.png')
+    sprites.background = love.graphics.newImage('sprites/background.png')
 
     local grid = anim8.newGrid(614,564,sprites.playerSheet:getWidth(),sprites.playerSheet:getHeight())
     local enemyGrid = anim8.newGrid(100,79,sprites.enemySheet:getWidth(),sprites.enemySheet:getHeight())
@@ -84,6 +85,7 @@ function love.update(dt)
 end
 
 function love.draw()
+    love.graphics.draw(sprites.background,0,0)
     cam:attach()
         gameMap:drawLayer(gameMap.layers["Tile Layer 1"])
         world:draw()
