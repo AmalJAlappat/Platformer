@@ -24,10 +24,11 @@ function love.load()
 
     require('player')
 
-    platform = world:newRectangleCollider(250,400,300,100,{collision_class="Platform"})
-    platform:setType('static')
-    dangerZone = world:newRectangleCollider(0,550,800,50,{collision_class="Danger"})
-    dangerZone:setType('static')
+    
+   --[[ dangerZone = world:newRectangleCollider(0,550,800,50,{collision_class="Danger"})
+    dangerZone:setType('static')]]
+
+    platforms={}
 
     loadMap()
 
@@ -43,7 +44,7 @@ end
 function love.draw()
    
     gameMap:drawLayer(gameMap.layers["Tile Layer 1"])
-    world:draw()
+    --world:draw()
     drawPlayer()
 end
 
@@ -55,6 +56,15 @@ function love.keypressed(key)
     end
 end
 
+function spawnPlatform(x,y,width,height)
+    local platform = world:newRectangleCollider(x,y,width,height,{collision_class="Platform"})
+    platform:setType('static')
+    table.insert(platforms,platform)
+end
+
 function loadMap()
     gameMap = sti('maps/level1.lua')
+    for i,obj in pairs(gameMap.layers["Platforms"].objects) do 
+        spawnPlatform(obj.x,obj.y,obj.width,obj.height)
+    end
 end
