@@ -1,6 +1,7 @@
 enemies={}
 
 function spawnEnemy(x,y)
+    --Physics objects added
     local enemy = world:newRectangleCollider(x,y,70,90,{collision_class="Danger"})
     enemy.direction = 1
     enemy.speed=200
